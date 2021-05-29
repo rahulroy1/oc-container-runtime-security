@@ -203,7 +203,7 @@ falco-falcosidekick-ui   falco-falcosidekick-ui-falco.roks-cp4a-2face0433451d5f4
 
 Now if we open up this route URL in browser, we should be able to see the below web UI.
 
-![alt text](https://github.ibm.com/apmmcontainerization/oc-container-runtime-security/blob/master/diagrams/Faclo-ui.png "Falco Sidekick UI")
+![alt text](https://github.com/rahulroy1/oc-container-runtime-security/tree/main/diagrams/Faclo-ui.png "Falco Sidekick UI")
 
 
 ### Step 5: Real time test to see Falco at works
@@ -246,9 +246,9 @@ root@falco-8lvvb:/# cat /etc/shadow > /dev/null
 
 We can track down in the `Events` pane in the UI and search for `shell was spawned in` and then we will find the necessary event in the UI itself as below.
 
-![alt text](https://github.ibm.com/apmmcontainerization/oc-container-runtime-security/blob/master/diagrams/Faclo-ui-security-alert.png "Falco Security Alert 1")
+![alt text](https://github.com/rahulroy1/oc-container-runtime-security/tree/main/diagrams/Faclo-ui-security-alert.png "Falco Security Alert 1")
 
-![alt text](https://github.ibm.com/apmmcontainerization/oc-container-runtime-security/blob/master/diagrams/Faclo-ui-security-alert2.png "Falco Security Alert 2")
+![alt text](https://github.com/rahulroy1/oc-container-runtime-security/tree/main/diagrams/Faclo-ui-security-alert2.png "Falco Security Alert 2")
 
 ## References
 
@@ -257,11 +257,3 @@ We can track down in the `Events` pane in the UI and search for `shell was spawn
     https://github.com/falcosecurity/falco
     https://github.com/falcosecurity/falcosidekick
     https://github.com/falcosecurity/falcosidekick-ui
-
-
-
-
-
-
-
-`
