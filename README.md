@@ -261,6 +261,7 @@ We can track down in the `Events` pane in the UI and search for `shell was spawn
 
 1. Falco blog: https://falco.org/blog/extend-falco-outputs-with-falcosidekick/
 2. Falco github: 
-    https://github.com/falcosecurity/falco
-    https://github.com/falcosecurity/falcosidekick
-    https://github.com/falcosecurity/falcosidekick-ui
+    - https://github.com/falcosecurity/falco
+    - https://github.com/falcosecurity/falcosidekick
+    - https://github.com/falcosecurity/falcosidekick-ui
+    - https://github.com/falcosecurity/charts
