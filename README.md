@@ -212,7 +212,7 @@ Now if we open up this route URL in browser, we should be able to see the below 
 
 #### 1. Tail the logs in the first PS terminal
 
-In one terminal, we tai the log in one pod of Falco
+In one terminal, we tail the log in one pod of Falco
 
 ```bash
 >oc logs -f falco-8lvvb
@@ -286,7 +286,7 @@ We can track down in the `Events` pane in the UI and search for `shell was spawn
 helm upgrade falco falcosecurity/falco --set falco.docker.enabled=false --set falco.jsonOutput=true --set falcosidekick.enabled=true --set falcosidekick.webui.enabled=true --set falcosidekick.config.Pagerduty.APIKey="API KEY Generated in Step 1 above" --set falcosidekick.config.pagerduty.service="falco-sidekick-pd" --set falcosidekick.config.pagerduty.assignee="Default" -n falco
 ```
 
-#### Alert - this still doesn't work as thr Helm repo and the Sidekick handler for Pager Duty have different config parameters
+#### Alert - this still doesn't work as the Helm repo and the Sidekick handler for Pager Duty have different config parameters
 #### Refer: https://github.com/falcosecurity/charts/issues/233
 
 
