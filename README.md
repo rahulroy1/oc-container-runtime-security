@@ -204,7 +204,7 @@ falco-falcosidekick-ui   falco-falcosidekick-ui-falco.roks-cp4a-2face0433451d5f4
 Now if we open up this route URL in browser, we should be able to see the below web UI.
 
 <p>
-    <img src="diagrams/Faclo-ui.png" width="220" height="240" />
+    <img src="diagrams/Faclo-ui.png"/>
 </p>
 
 
@@ -248,9 +248,13 @@ root@falco-8lvvb:/# cat /etc/shadow > /dev/null
 
 We can track down in the `Events` pane in the UI and search for `shell was spawned in` and then we will find the necessary event in the UI itself as below.
 
-![Image](../blob/master/diagrams/Faclo-ui-security-alert.png?raw=true)
+<p>
+    <img src="diagrams/Faclo-ui-security-alert.png"/>
+</p>
 
-![Image](../blob/master/diagrams/Faclo-ui-security-alert2.png?raw=true)
+<p>
+    <img src="diagrams/Faclo-ui-security-alert2.png"/>
+</p>
 
 
 ## References
