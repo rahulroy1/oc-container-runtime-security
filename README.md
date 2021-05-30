@@ -256,6 +256,39 @@ We can track down in the `Events` pane in the UI and search for `shell was spawn
     <img src="diagrams/Faclo-ui-security-alert2.png"/>
 </p>
 
+## Third Party Integration
+
+### Falco Sidekick-Pagerduty-Slack integration
+
+#### Pagerduty-Slack integration
+1. Create a PagerDuty account and add Slack as integration
+2. Create a new Pagerduty service `falco-sidekick-pd`
+3. Add your local Slack channel in the PagerDuty integration page
+4. Add a local event within PagerDuty and verify that its alerted in the local Slack channel.
+
+##### Add Local Alert in Pager Duty (not yet integrated with Falco)
+
+<p>
+    <img src="diagrams/Pagerduty-Slack-integration.png"/>
+</p>
+
+##### Local Pager Duty Alert to Slack
+
+<p>
+    <img src="diagrams/Pagerduty-Slack-integration-local-alert.png"/>
+</p>
+
+#### Falco Sidekick-Pagerduty integration
+1. Create a new API Key in PagerDuty at the top panel ( ? icon) / API Access
+2. Now update the Helm install with the details for PagerDuty integration using
+
+```bash
+helm upgrade falco falcosecurity/falco --set falco.docker.enabled=false --set falco.jsonOutput=true --set falcosidekick.enabled=true --set falcosidekick.webui.enabled=true --set falcosidekick.config.Pagerduty.APIKey="API KEY Generated in Step 1 above" --set falcosidekick.config.pagerduty.service="falco-sidekick-pd" --set falcosidekick.config.pagerduty.assignee="Default" -n falco
+```
+
+#### Alert - this still doesn't work as thr Helm repo and the Sidekick handler for Pager Duty have different config parameters
+#### Refer: https://github.com/falcosecurity/charts/issues/233
+
 
 ## References
 
