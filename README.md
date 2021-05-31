@@ -110,6 +110,14 @@ Based upon the Helm chart specification, we have:
 - 2 pods for Falco Sidekick
 - 1 pod for Falco Sidekick-UI
 
+### Verify Falco running as daemonset
+Falco runs a daemonset for the falco daemon itself, ensuring a single copy of the program per physical node is running.
+```bash
+oc get ds
+NAME      DESIRED   CURRENT   READY     UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE
+falco     3         3         3         3            3           <none>          32h
+```
+
 #### ALERT!
 In case you find all of the above are not created, then check the `Deployment` pane and check if you find an error like this:
 
