@@ -266,6 +266,111 @@ We can track down in the `Events` pane in the UI and search for `shell was spawn
 
 ## Third Party Integration
 
+While the Sidekick UI gives us a good overview on how the security events look like and can be harnessed but from overall SoC operations point of view, we would like Falco events to be aggregated into tools like Datadog and then alerts like Pagerduty and notification outlets like Slack.
+
+### Falco Sidekick-Datadog integration
+
+`Datadog` is a monitoring service for cloud-scale applications, providing monitoring of servers, databases, tools, and services, through a SaaS-based data analytics platform.
+
+#### Create a new Datadog account & install agent
+1. Go to www.datadog.com and create a new account
+2. Add a new API key from Integrations pane
+
+<p>
+    <img src="diagrams/datadog-apikey.png"/>
+</p>
+
+3. Now install Openshift agent (from the Events pane) so that our Falco namespace in OC cluster can redirect events to Datadog
+3.1 Add Datadog Helm repo
+
+```bash
+>helm repo add datadog https://helm.datadoghq.com
+"datadog" has been added to your repositories
+>helm repo add stable https://charts.helm.sh/stable
+"stable" has been added to your repositories
+>helm repo update
+Hang tight while we grab the latest from your chart repositories...
+...Successfully got an update from the "datadog" chart repository
+...Successfully got an update from the "elastic" chart repository
+...Successfully got an update from the "falcosecurity" chart repository
+...Successfully got an update from the "stable" chart repository
+Update Complete. Happy Helming!
+```
+3.2 Download values.yaml from Datadog Helm repo to your current working directory
+3.3 Install Datadog using Helm. I used <release-name> as dg-falco, you can use whatever.
+
+```bash
+>helm install <release-name> -f values.yaml --set datadog.site='datadoghq.com' --set datadog.apiKey=<apiKey created in Step 2> datadog/datadog
+I0601 08:19:22.312788   14996 request.go:655] Throttling request took 1.1691721s, request: GET:https://c100-e.eu-de.containers.cloud.ibm.com:32592/apis/weblogic.oracle/v8?timeout=32s
+NAME: dg-falco
+LAST DEPLOYED: Tue Jun  1 08:19:23 2021
+NAMESPACE: falco
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+Datadog agents are spinning up on each node in your cluster. After a few
+minutes, you should see your agents starting in your event stream:
+    https://app.datadoghq.com/event/stream
+```
+3.5 Let's verify the Datadog pods were up and running and it should show an output like this
+  
+```bash
+>oc get pods
+NAME                                              READY     STATUS    RESTARTS   AGE
+dg-falco-datadog-2cx24                            2/2       Running   0          30m
+dg-falco-datadog-cluster-agent-6b85b7cb5d-tts8c   1/1       Running   0          30m
+dg-falco-datadog-mxvt2                            2/2       Running   0          30m
+dg-falco-datadog-pf5pq                            2/2       Running   0          30m
+falco-falcosidekick-8f9b4c498-7cjk9               1/1       Running   0          22m
+falco-falcosidekick-8f9b4c498-wmckq               1/1       Running   0          23m
+falco-falcosidekick-ui-7fd67f6bff-gkkq7           1/1       Running   4          2d8h
+falco-hl7c2                                       1/1       Running   0          2d8h
+falco-rz74n                                       1/1       Running   0          2d8h
+falco-wxwsv                                       1/1       Running   0          2d8h  
+```
+  
+So now we setup Sidekick to stream out events to our Datadog service
+  
+#### Update Falco Sidekick configuration for Datadog and upgrade Helm
+  
+1. Upgrade Helm setting `datadog.apikey` and we are done!
+  
+```bash
+>helm upgrade falco falcosecurity/falco --set falco.docker.enabled=false --set falco.jsonOutput=true --set falcosidekick.enabled=true --set falcosidekick.webui.enabled=true --set falcosidekick.config.datadog.apikey="<apikey>" -n falco  
+
+I0601 08:25:52.034617    4080 request.go:655] Throttling request took 1.1844204s, request: GET:https://c100-e.eu-de.containers.cloud.ibm.com:32592/apis/weblogic.oracle/v7?timeout=32s
+Release "falco" has been upgraded. Happy Helming!
+NAME: falco
+LAST DEPLOYED: Tue Jun  1 08:25:53 2021
+NAMESPACE: falco
+STATUS: deployed
+REVISION: 22
+NOTES:
+Falco agents are spinning up on each node in your cluster. After a few
+seconds, they are going to start monitoring your containers looking for
+security issues.
+
+No further action should be required.
+```
+2. Now we should see our falco-sidekick pods restarting and if we check the container logs, we should see Sidekick is not using both Daadog and WebUI as output.
+  
+```bash
+2021/06/01 02:58:33 [INFO]  : Enabled Outputs : [Datadog WebUI]
+2021/06/01 02:58:33 [INFO]  : Falco Sidekick is up and listening on :2801
+2021/06/01 02:58:49 [INFO]  : Datadog - Post OK (202)
+2021/06/01 02:58:49 [INFO] : Datadog - Publish OK  
+```  
+ 
+#### Visualize Falco events in Datadog UI
+
+We can sort by using `sources:falco`  
+<p>
+    <img src="diagrams/datadog-falcoevents.png"/>
+</p>  
+
+So in this way, we have now shipped all our Falco security monitoring events to an industry-standard monitoring service like Datadog.
+
 ### Falco Sidekick-Pagerduty-Slack integration
 
 #### Pagerduty-Slack integration
