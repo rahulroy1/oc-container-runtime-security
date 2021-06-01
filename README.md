@@ -364,11 +364,13 @@ No further action should be required.
  
 #### Visualize Falco events in Datadog UI
 
-We can sort by using `sources:falco`  
+##### Aggregate by sources e.g. using `sources:falco`
 <p>
     <img src="diagrams/datadog-falcoevents.png"/>
-</p>  
-
+</p>
+  
+##### Aggregate by tags e.g. using "tags:k8s.pod.name:weblogic-operator-76c9cfd7db-t2ptr" or using "tags:k8s.ns.name:wls-opt-ns-0dtm"
+  
 So in this way, we have now shipped all our Falco security monitoring events to an industry-standard monitoring service like Datadog.
 
 ### Falco Sidekick-Pagerduty-Slack integration
