@@ -15,6 +15,12 @@ Falco as a tool has 3 components:
 
 While in this example, we are using Sidekick UI as the output, but looking at the available options for Sidekick, one can easily integrate from Slack, Pagerduty, Prometheus to any public cloud event sourcing resources like Azure Event Hub or AWS Lamda.
 
+## Falco context in container monitoring, alerting and reactive action
+
+<p>
+    <img src="diagrams/Falco-context-diagram.png"/>
+</p>
+
 ## View a Falco rule
 
 Falco rules, which governs, how it will treat any activity in the container, is configured at:
